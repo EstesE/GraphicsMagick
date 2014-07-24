@@ -1,0 +1,7 @@
+
+# Ignore .idea
+.idea
+
+node_modules
+bower_modules
+properties

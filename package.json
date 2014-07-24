@@ -1,0 +1,21 @@
+{
+    "name": "GraphicsMagick",
+    "version": "0.0.1",
+    "description": "",
+    "main": "GraphicsMagick.js",
+    "dependencies": {
+        "async": "*",
+        "gm": "*"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Eric",
+    "description": "Resize images for website. 'GraphicsMagick' documentation http://aheckmann.github.io/gm/docs.html | https://github.com/aheckmann/gm/tree/master/examples",
+
+    "dependencies": {
+        "gm": "*",
+        "async": "*"
+    }
+}
