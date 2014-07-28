@@ -20,9 +20,9 @@ var processQueue = async.queue(function (task, callback) {
                                 console.log('Uh Oh: ' + err);
                                 return console.dir(arguments);
                             }
-//                            console.log('-----------------------------------------------\n');
-//                            console.log(this.outname + " created " + arguments[3]);
-//                            console.log('-----------------------------------------------\n\n');
+                            console.log('-----------------------------------------------\n');
+                            console.log(this.outname + " created " + arguments[3]);
+                            console.log('-----------------------------------------------\n\n');
                         });
                 }
             } else {
