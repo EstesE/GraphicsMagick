@@ -20,9 +20,9 @@ var processQueue = async.queue(function (task, callback) {
                                 console.log('Uh Oh: ' + err);
                                 return console.dir(arguments);
                             }
-                            console.log('-----------------------------------------------\n');
-                            console.log(this.outname + " created " + arguments[3]);
-                            console.log('-----------------------------------------------\n\n');
+//                            console.log('-----------------------------------------------\n');
+//                            console.log(this.outname + " created " + arguments[3]);
+//                            console.log('-----------------------------------------------\n\n');
                         });
                 }
             } else {
@@ -37,6 +37,19 @@ var walk = function (root, images) {
         cnt++;
         var file = path.join(root, files[f]);
         var stat = fs.statSync(file);
+
+        var dir = path.dirname(file);
+        var filename = path.basename(file);
+        console.log(dir);
+        console.log(filename);
+
+        // Delete 'Thumbs.db', .DS_Store, .bridgelabelsandratings... and really anything that starts with a '.'
+        var basefile = file.split('\\');
+        if (basefile[basefile.length - 1] === 'Thumbs.db' || basefile[basefile.length - 1].charAt(0) === '.') {
+            fs.unlink(file, function(err){
+                if (err) throw err;
+            });
+        }
 
         if (stat.isDirectory()) {
             walk(file);
@@ -103,10 +116,16 @@ var walk = function (root, images) {
                 });
             }
 
+            // Rename directories
+            // ....
+            // ...
+            // ..
+            // .
+
         }
         cnt++;
         processQueue.concurrency = cnt;
     }
 }
 
-walk('.');
+walk('./properties');

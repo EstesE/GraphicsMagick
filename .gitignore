@@ -1,7 +1,11 @@
 
 # Ignore .idea
+
 .idea
+
+# Directories
 
 node_modules
 bower_modules
 properties
+untouched-properties
