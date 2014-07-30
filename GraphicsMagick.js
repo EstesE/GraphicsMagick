@@ -4,6 +4,7 @@ var path = require('path');
 var async = require('async');
 var src = process.argv[2];
 var dst = process.argv[3];
+var cur = process.argv[4];
 var now = new Date();
 var jsonDate = now.toJSON();
 
@@ -29,10 +30,15 @@ var processQueue = async.queue(function (task, callback) {
             callback(null);
         }
     })
-}, 10);
+}, cur);
 
 
 var walk = function (root) {
+
+    // Set concurrency
+    if (typeof cur == 'undefined'){
+        cur = 1;
+    }
 
     if (src && dst) {
         var files = fs.readdirSync(root);
