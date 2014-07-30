@@ -97,12 +97,13 @@ var walk = function (root) {
                 } else {
                     var ext = path.extname(file);
                     // Just copy over the other files...
-                    if (ext == '.pdf' || ext == '.jpg' || ext == '.png')
+                    if (ext == '.pdf' || ext == '.jpg' || ext == '.png') {
                         fs.copy(file, file.replace(src, dst), function (err) {
                             if (err) {
                                 fs.appendFileSync('error.log', err);
                             }
                         })
+                    }
                 }
             }
         }
