@@ -97,7 +97,7 @@ var walk = function (root) {
                 } else {
                     var basefile = file.split('\\');
                     // Just copy over the other files...
-                    if (basefile[basefile.length -1] !== 'Thumbs.db' && basefile[basefile.length -1].charAt(0) !== '.'){
+                    if (basefile[basefile.length -1] !== 'Thumbs.db' || basefile[basefile.length -1].charAt(0) !== '.'){
                         fs.copy(file, file.replace(src, dst), function (err) {
                             if (err) {
                                 fs.appendFileSync('error.log', err);
