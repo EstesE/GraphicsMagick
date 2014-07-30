@@ -114,7 +114,7 @@ var walk = function (root) {
             }
         }
     } else {
-        console.log('\nIncorrect number of parameters. Please provide a source and destination.\n\tExample: node GraphicsMagick.js sourceImages destinationImages')
+        console.log('\nIncorrect number of parameters. Please provide a source and destination (optional concurrency value).\n\tExample: node GraphicsMagick.js sourceImages destinationImages 10')
     }
 }
 
