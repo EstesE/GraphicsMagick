@@ -1,9 +1,7 @@
 var gm = require('gm');
-var im = require("imagemagick")
 var fs = require('fs-extra');
 var path = require('path');
 var async = require('async');
-var mkdirp = require('mkdirp');
 var src = process.argv[2];
 var dst = process.argv[3];
 var now = new Date();
@@ -47,12 +45,6 @@ var walk = function (root) {
 
             if (stat.isDirectory()) {
                 // Create Directories
-//                mkdirp(file.replace(src, dst), function (err) {
-//                    if (err) {
-//                        console.log(err);
-//                        fs.appendFileSync('error.log', err);
-//                    }
-//                });
                 fs.ensureDir(file.replace(src, dst), function (err) {
                     if (err) {
                         fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
