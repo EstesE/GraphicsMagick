@@ -5,17 +5,13 @@
     "main": "GraphicsMagick.js",
     "dependencies": {
         "async": "*",
-        "gm": "*"
+        "gm": "*",
+        "fs-extra": "*"
     },
     "devDependencies": {},
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Eric",
-    "description": "Resize images for website. 'GraphicsMagick' documentation http://aheckmann.github.io/gm/docs.html | https://github.com/aheckmann/gm/tree/master/examples",
-
-    "dependencies": {
-        "gm": "*",
-        "async": "*"
-    }
+    "description": "Resize images for website. 'GraphicsMagick' documentation http://aheckmann.github.io/gm/docs.html | https://github.com/aheckmann/gm/tree/master/examples"
 }
