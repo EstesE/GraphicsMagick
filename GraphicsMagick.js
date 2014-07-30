@@ -95,10 +95,8 @@ var walk = function (root) {
                         }
                     });
                 } else {
-                    var basefile = file.split('\\');
                     var ext = path.extname(file);
                     // Just copy over the other files...
-                    //if (basefile[basefile.length -1] != 'Thumbs.db' || basefile[basefile.length -1].charAt(0) != '.'){)
                     if (ext == '.pdf' || ext == '.jpg' || ext == '.png')
                         fs.copy(file, file.replace(src, dst), function (err) {
                             if (err) {
