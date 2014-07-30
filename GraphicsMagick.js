@@ -10,11 +10,11 @@ var jsonDate = now.toJSON();
 var processQueue = async.queue(function (task, callback) {
     var basename = path.basename(task.file.toLowerCase(), '.jpg');
     var dirname = path.dirname(task.file);
-    var newfile = dirname.replace(src, dst) + '\\' + basename + task.suffix + '.jpg';
+    var newfile = path.join(dirname.replace(src, dst), basename + task.suffix + '.jpg');
 
     fs.ensureDir(dirname.replace(src, dst), function (err) {
         if (!err) {
-            gm(dirname + '\\' + basename + '.jpg')
+            gm(path.join(dirname ,basename + '.jpg'))
                 .resize(task.width)
                 .write(newfile, function (err) {
                     if (err) {
