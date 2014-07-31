@@ -9,27 +9,34 @@ var now = new Date();
 var jsonDate = now.toJSON();
 
 var processQueue = async.queue(function (task, callback) {
-    var basename = path.basename(task.file.toLowerCase(), '.jpg');
+    var basename = path.basename(task.file);
     var dirname = path.dirname(task.file);
-    var newfile = path.join(dirname.replace(src, dst), basename + task.suffix + '.jpg');
+    var newpath = path.join(src,  dst).replace(src, '');
+    var newfile = path.join(path.dirname(task.file), basename.substring(0, basename.length - 4) + task.suffix + task.extension).toLowerCase().replace(src, dst);
 
-    fs.ensureDir(dirname.replace(src, dst), function (err) {
-        if (!err) {
-            gm(path.join(dirname ,basename + '.jpg'))
-                .resize(task.width)
-                .write(newfile, function (err) {
-                    if (err) {
-                        console.log('Uh Oh: ' + err);
-                        fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
-                        return console.dir(arguments);
-                    }
-                    console.log('-----------------------------------------------\n');
-                    console.log("Created " + arguments[3]);
-                    console.log('-----------------------------------------------\n\n');
-                });
-            callback(null);
+    fs.ensureDir(newpath, function (err) {
+        if (err) {
+            fs.appendFileSync('error.log', jsonDate + err);
+        } else {
+            if (!err) {
+                gm(path.join(dirname ,basename))
+                    .resize(task.width)
+                    .quality(70)
+                    .write(newfile, function (err) {
+                        if (err) {
+                            console.log('Uh Oh: ' + err);
+                            fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
+                            fs.appendFileSync(arguments);
+                            return console.dir(arguments);
+                        }
+                        console.log('-----------------------------------------------\n');
+                        console.log("Created " + arguments[3]);
+                        console.log('-----------------------------------------------\n\n');
+                    });
+                callback(null);
+            }
         }
-    })
+    });
 }, cur);
 
 
@@ -47,6 +54,7 @@ var walk = function (root) {
         for (var x in files) {
             var file = path.join(root, files[x]);
             var stat = fs.statSync(file);
+            var ext = path.extname(file);
 
 
             if (stat.isDirectory()) {
@@ -63,48 +71,48 @@ var walk = function (root) {
 
                 if (file.indexOf('gallery-photos') > -1 && ext.toLowerCase() === '.jpg') {
                     // ------ Gallery-Photos ------
-                    processQueue.push({ file: file, width: 360, suffix: '_sm' }, function (err) {
+                    processQueue.push({ file: file, width: 360, suffix: '_sm', extension: ext }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
 
-                    processQueue.push({ file: file, width: 800, suffix: '' }, function (err) {
+                    processQueue.push({ file: file, width: 800, suffix: '', extension: ext }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
                 } else if (file.indexOf('index-photos') > -1 && ext.toLowerCase() === '.jpg') {
                     // ------ Index-Photos ------
-                    processQueue.push({ file: file, width: 760, suffix: '_md' }, function (err) {
+                    processQueue.push({ file: file, width: 760, suffix: '_md', extension: ext }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
 
-                    processQueue.push({ file: file, width: 2048, suffix: '' }, function (err) {
+                    processQueue.push({ file: file, width: 2048, suffix: '', extension: ext }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
                 } else if (file.indexOf('index-photos') == -1 && file.indexOf('gallery-photos') == -1 && file.indexOf('floorplans') == -1 && file.indexOf('forms') == -1 && ext.toLowerCase() === '.jpg') {
                     // ------ Other (jpg) images ------
-                    processQueue.push({ file: file, width: 800, suffix: '_sm' }, function (err) {
+                    processQueue.push({ file: file, width: 800, suffix: '_sm', extension: ext }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
 
-                    processQueue.push({ file: file, width: 2048, suffix: '' }, function (err) {
+                    processQueue.push({ file: file, width: 2048, suffix: '', extension: ext }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
                 } else {
-                    var ext = path.extname(file);
+                    //var ext = path.extname(file);
                     // Just copy over the other files...
                     if (ext == '.pdf' || ext == '.jpg' || ext == '.png') {
-                        fs.copy(file, file.replace(src, dst), function (err) {
+                        fs.copy(file, file.replace(src, dst).toLowerCase(), function (err) {
                             if (err) {
                                 fs.appendFileSync('error.log', err);
                             }
