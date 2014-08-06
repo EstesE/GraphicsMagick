@@ -21,7 +21,7 @@ var processQueue = async.queue(function (task, callback) {
             if (!err) {
                 gm(path.join(dirname ,basename))
                     .resize(task.width)
-                    .quality(70)
+                    .quality(task.quality)
                     .write(newfile, function (err) {
                         if (err) {
                             console.log('Uh Oh: ' + err);
@@ -71,39 +71,39 @@ var walk = function (root) {
 
                 if (file.indexOf('gallery-photos') > -1 && ext.toLowerCase() === '.jpg') {
                     // ------ Gallery-Photos ------
-                    processQueue.push({ file: file, width: 360, suffix: '_sm', extension: ext }, function (err) {
+                    processQueue.push({ file: file, width: 360, suffix: '_sm', extension: ext, quality: 70 }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
 
-                    processQueue.push({ file: file, width: 800, suffix: '', extension: ext }, function (err) {
+                    processQueue.push({ file: file, width: 800, suffix: '', extension: ext, quality: 100 }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
                 } else if (file.indexOf('index-photos') > -1 && ext.toLowerCase() === '.jpg') {
                     // ------ Index-Photos ------
-                    processQueue.push({ file: file, width: 760, suffix: '_md', extension: ext }, function (err) {
+                    processQueue.push({ file: file, width: 760, suffix: '_md', extension: ext, quality: 70 }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
 
-                    processQueue.push({ file: file, width: 2048, suffix: '', extension: ext }, function (err) {
+                    processQueue.push({ file: file, width: 2048, suffix: '', extension: ext, quality: 100 }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
                 } else if (file.indexOf('index-photos') == -1 && file.indexOf('gallery-photos') == -1 && file.indexOf('floorplans') == -1 && file.indexOf('forms') == -1 && ext.toLowerCase() === '.jpg') {
                     // ------ Other (jpg) images ------
-                    processQueue.push({ file: file, width: 800, suffix: '_sm', extension: ext }, function (err) {
+                    processQueue.push({ file: file, width: 800, suffix: '_sm', extension: ext, quality: 70 }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
                     });
 
-                    processQueue.push({ file: file, width: 2048, suffix: '', extension: ext }, function (err) {
+                    processQueue.push({ file: file, width: 2048, suffix: '', extension: ext, quality: 100 }, function (err) {
                         if (err) {
                             fs.appendFileSync('error.log', jsonDate + '\t\t' + err);
                         }
